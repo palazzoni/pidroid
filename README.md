@@ -1,5 +1,5 @@
 # pidroid
-Final release linux desktop on android and raspberry/rock pi
+Final release of kali linux desktop on android phone and raspberry/rock pi docking station
 
 This project aims to use an Android rooted phone and an arm64 sbc as a linux debian desktop environment: in every location where you can leave connected a Raspberry Pi 3/4 or Rockpi 4 to a TV/monitor, physical keyboard and mouse you have a near desktop experience (naturally don't expect Intel X64 performance from your phone :-)). 
 Using directly Android limit too much your desktop experience and productivity...for this reason the most economic and pratical method I found is to use a debian or kali linux chroot on the phone and a pi that act as a docking station.
