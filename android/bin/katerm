@@ -1,0 +1,4 @@
+#!/system/bin/sh
+su -c /bin/kali_term
+exit 0
+

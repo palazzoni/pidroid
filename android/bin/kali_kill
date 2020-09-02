@@ -1,0 +1,47 @@
+#!/system/bin/sh
+
+if [ -x /sbin/.magisk/busybox/busybox ]; then
+        busybox=/sbin/.magisk/busybox/busybox
+else
+	echo "Busybox not found!"
+	log "Busybox not found!"
+	exit
+fi
+
+############# RESET ENVIRONMENT ##################
+export bin=/system/bin
+export mnt=/data/local/kali
+PRESERVED_PATH=$PATH
+export PATH=/usr/bin:/usr/sbin:/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export TERM=linux
+export HOME=/root
+export LOGNAME=root
+unset LD_PRELOAD
+
+############# RESET GOVERNOR ##################
+#echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+#echo "interactive" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
+#echo "interactive" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
+#echo "interactive" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
+
+############# RESET SERVICES  ##################
+echo " Shutting down VNC server"
+$busybox chroot $mnt su -c "/usr/bin/vncserver -kill :1" michele
+
+echo " Shutting down SSH Server"
+$busybox chmod 666 /dev/null
+$busybox chroot $mnt /usr/bin/killall sshd
+
+# remove all dev file lock
+$busybox lsof $mnt/dev/* | grep $mnt/dev | awk '{print $1}' | xargs kill -9 &>/dev/null
+
+# unmount everything
+echo "\n Removing all mounts"
+$busybox umount $mnt/dev/pts && echo "unmounted pts"
+$busybox umount $mnt/dev && echo "unmounted dev"
+$busybox umount $mnt/proc && echo "unmounted proc"
+$busybox umount $mnt/sys && echo "unmounted sys"
+$busybox umount $mnt/system && echo "unmounted system"
+$busybox umount $mnt/sdcard && echo "unmounted sdcard"
+
+export PATH=$PRESERVED_PATH
