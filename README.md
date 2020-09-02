@@ -19,9 +19,9 @@ What you need:
 3. a TV with HDMI input or a monitor with HDMI input plus speackers attached to the audio jack on Pi.
 4. standard USB Keyboard and mouse.
 With this configuration I can run a full office desktop with decend performance also on Skype and Teams desktop sharing.
+Rockpi4a in action:
 <img src="https://github.com/palazzoni/pidroid/blob/master/rockpi4a.png?raw=true">
-
 Attaching phone....
-<a href="#"><img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5795_Moment.png?raw=true"></a>
-Start desktop...
-<a href="#"><img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5795_Moment.png?raw=true"></a>
+<img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5795_Moment.png?raw=true">
+Starting desktop...
+<img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5796_Moment.png?raw=true">
