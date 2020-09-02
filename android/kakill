@@ -1,0 +1,3 @@
+#!/system/bin/sh
+su -c /bin/kali_kill
+exit 0
