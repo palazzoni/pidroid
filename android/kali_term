@@ -1,7 +1,0 @@
-#!/system/bin/sh
-. "kali_chroot"
-
-######### ROOT TERMINAL SETUP #########
-clear
-$busybox chroot $mnt /bin/bash --login -i
-
