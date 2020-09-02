@@ -1,0 +1,12 @@
+#!/bin/bash
+/usr/bin/tigervncserver -kill :1
+if [ -f /root/.vnc/localhost:1* ]; then
+   rm /root/.vnc/localhost:1*
+fi
+if [ -f /tmp/.X1-lock ]; then
+   rm /tmp/.X1-lock
+fi
+if [ -d /tmp/.X11-unix ]; then
+   rm -r /tmp/.X11-unix
+fi
+exit 0
