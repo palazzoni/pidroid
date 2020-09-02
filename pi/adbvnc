@@ -1,0 +1,36 @@
+#!/bin/bash
+first_run=false
+while /bin/true ; do
+  adb_check=$(adb devices -l| grep "device usb:")
+
+if ( !([ -z "$adb_check"]) && !($first_run) ) > /dev/null 2>&1
+then
+    first_run=true
+    echo "ADBVNC:Device connected, setup ports forwarding..."
+    logger "ADBVNC:Device connected, setup ports forwarding..."
+    adb forward tcp:5901 tcp:5901
+    adb reverse tcp:4712 tcp:4712
+    adb reverse tcp:22222 tcp:22222
+    echo "ADBVNC:Launching device chroot...."
+    logger "ADBVNC:Launching device chroot...."
+    adb shell /system/bin/kavnc &
+    sleep 5
+    logger "ADBVNC:Start TigerVNC and start forwarding audio..."
+    xinit /usr/bin/xtigervncviewer 127.0.0.1:1 -Fullscreen -PreferredEncoding=Raw -AutoSelect=0
+    adb shell killall kavnc
+    adb shell /system/bin/kakill
+    echo "ADBVNC: Please disconnect device..."
+    logger "ADBVNC: Service terminated."
+    sleep 5
+elif ( ($first_run) && !([ -z "$adb_check"])) > /dev/null 2>&1
+then
+    echo "ADBVNC: Disconnect device if you want to restart..."
+    sleep 5
+else
+    first_run=false
+    echo "ADBVNC: Device disconnected, sleeping 5 sec..."
+    logger "ADBVNC: Device disconnected, sleeping 5 sec..."
+    sleep 5
+fi
+done
+exit 0
