@@ -1,4 +1,71 @@
 #!/system/bin/sh
-su -c /bin/kali_term
-exit 0
-
+if [ -x /data/adb/magisk/busybox ]; then
+  busybox=/data/adb/magisk/busybox
+else
+  echo "Magisk busybox not found, trying without, if fail install Magisk"
+  log "Magisk busybox not found, trying without, if fail install Magisk"
+  busybox=""
+fi
+# CHROOT MOUNTPOINT #
+mnt=/data/local/kali
+# CHECK IF CHROOT OK #
+if [ ! -d "$mnt/usr" ]; then
+  echo "Missing a required folder. Something isn't right"
+  exit 1
+fi
+#MOUNT DATA & SHM #
+mount -o remount,suid /data
+if [ ! -d "dev/shm" ]; then
+  mkdir /dev/shm
+  chmod 777 /dev/shm
+fi
+# INTERNAL STORAGE #
+mount_sdcard() {
+ mountpoint -q "$mnt/sdcard" && return 0
+ for sdcard in \
+   "$EXTERNAL_STORAGE" \
+   /storage/emulated/0 \
+   /storage/emulated/legacy \
+   /storage/sdcard0 \
+   /sdcard
+ do
+      [ -d "$sdcard" ] &&
+      $busybox mount -o bind "$sdcard" "$mnt/sdcard" &&
+      return 0
+    done
+    return 1
+}
+# MAIN CHROOT #
+# if chroot's /dev is mounted assume chroot already running and skip
+# initialization
+if ! $busybox mountpoint -q $mnt/dev; then
+  $busybox mount -r -o bind /system $mnt/system
+  mount_sdcard
+  $busybox mount -o bind /dev $mnt/dev
+  $busybox mount -t devpts devpts $mnt/dev/pts
+  $busybox mount -t proc proc $mnt/proc
+  $busybox mount -t sysfs sysfs $mnt/sys
+  echo "127.0.0.1 localhost POCO" > $mnt/etc/hosts
+  echo "::1 localhost ip6-localhost ip6-loopback" >> $mnt/etc/hosts
+  rm -f $mnt/etc/resolv.conf
+  android_dns=$( getprop | grep net.dns | egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}')
+  for i in $android_dns; do echo  "nameserver" $i >> $mnt/etc/resolv.conf ; done
+  chmod 644 $mnt/etc/resolv.conf
+  echo "Kali chroot has been started."
+  log "Kali chroot has been started."
+else
+  echo "Kali chroot is already running!"
+fi
+######### EXPORT ENVIRONMENT #########
+export bin=/bin
+export mnt=$mnt
+PRESERVED_PATH=$PATH
+export PATH=/usr/bin:/usr/sbin:/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export TERM=linux
+export HOME=/root
+export USER=root
+export LOGNAME=root
+unset LD_PRELOAD
+######### ROOT TERMINAL #
+clear
+$busybox chroot $mnt /bin/bash --login -i
