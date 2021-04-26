@@ -1,3 +1,3 @@
 #!/bin/bash
-/usr/bin/tigervncserver -localhost yes -SecurityType None  :1
+su -c "/usr/bin/tigervncserver :1 -xstartup /usr/bin/xfce4-session -autokill -SecurityTypes None -localhost" user
 exit 0
