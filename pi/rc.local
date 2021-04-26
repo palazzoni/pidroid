@@ -11,4 +11,6 @@
 #
 # By default this script does nothing.
 pulseaudio --system -D --disallow-exit --disallow-module-loading
+adbvnc &
+
 exit 0
