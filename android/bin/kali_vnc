@@ -1,6 +1,0 @@
-#!/system/bin/sh
-. "kali_chroot"
-
-######### VNC START #########
-$busybox chroot $mnt /usr/bin/startvnc
-
