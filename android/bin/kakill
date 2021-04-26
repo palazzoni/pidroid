@@ -1,3 +1,38 @@
 #!/system/bin/sh
-su -c /bin/kali_kill
+if [ -x /data/adb/magisk/busybox ]; then
+   busybox=/data/adb/magisk/busybox
+else
+  echo "Magisk busybox not found, trying without, if fail install Magisk"
+  log "Magisk busybox not found, trying without, if fail install Magisk"
+  busybox=""
+fi
+# RESET ENV #
+export bin=/bin
+export mnt=/data/local/kali
+PRESERVED_PATH=$PATH
+export PATH=/usr/bin:/usr/sbin:/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export TERM=linux
+export HOME=/root
+export LOGNAME=root
+unset LD_PRELOAD
+# SHUTDOWN #
+echo " Shutting down VNC server"
+$busybox chroot $mnt su -c "/usr/bin/vncserver -kill :1" user
+echo " Shutting down SSH Server"
+$busybox chroot $mnt /usr/bin/killall sshd
+# remove all dev file lock
+$busybox lsof $mnt/dev/* | grep $mnt/dev | awk '{print $1}' | xargs kill -9 &>/dev/null
+# remount data nosuid
+$busybox mount -o remount,nosuid /data
+# unmount everything
+echo "\n Removing all mounts"
+$busybox umount $mnt/dev/pts && echo "unmounted pts"
+$busybox umount $mnt/dev && echo "unmounted dev"
+$busybox umount $mnt/proc && echo "unmounted proc"
+$busybox umount $mnt/sys && echo "unmounted sys"
+$busybox umount $mnt/system && echo "unmounted system"
+$busybox umount $mnt/sdcard && echo "unmounted sdcard"
+export PATH=$PRESERVED_PATH
+echo "Kali chroot has been stopped"
+log "Kali chroot has been stopped"
 exit 0
