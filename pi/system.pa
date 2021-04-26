@@ -36,6 +36,9 @@ load-module module-detect
 load-module module-esound-protocol-unix
 .endif
 load-module module-native-protocol-unix
+
+### Pidroid server connection via adb
+#   Use ip-acl and pulseaudio cookie $HOME/.config/pulse/cookie for security
 load-module module-native-protocol-tcp port=4712 auth-anonymous=1
 
 ### Automatically restore the default sink/source when changed by the user
