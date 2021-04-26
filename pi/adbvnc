@@ -13,12 +13,13 @@ then
     adb reverse tcp:22222 tcp:22222
     echo "ADBVNC:Launching device chroot...."
     logger "ADBVNC:Launching device chroot...."
-    adb shell /system/bin/kavnc &
-    sleep 5
-    logger "ADBVNC:Start TigerVNC and start forwarding audio..."
+    adb shell su -c /data/local/bin/kavnc &
+    sleep 3
+    logger "ADBVNC:Start forwarding video and audio..."
     xinit /usr/bin/xtigervncviewer 127.0.0.1:1 -Fullscreen -PreferredEncoding=Raw -AutoSelect=0
+    sleep 1
     adb shell killall kavnc
-    adb shell /system/bin/kakill
+    adb shell su -c /data/local/bin/kakill
     echo "ADBVNC: Please disconnect device..."
     logger "ADBVNC: Service terminated."
     sleep 5
