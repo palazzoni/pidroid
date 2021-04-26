@@ -1,0 +1,3 @@
+#!/bin/sh
+/data/adb/magisk/busybox tar -xvpz -f /sdcard/kali_backup.tar.gz -C /data/local/
+exit 0
