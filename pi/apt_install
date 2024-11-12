@@ -1,2 +1,2 @@
-# if on wayland install Xwayland , if not install xserver-xorg
-apt update && apt install pulseaudio xinit tigervnc-viewer
+# if run on wayland install Xwayland, if not install first xorg
+apt update && apt install adb pulseaudio xinit tigervnc-viewer
