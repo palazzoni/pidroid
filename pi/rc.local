@@ -10,7 +10,8 @@
 # bits.
 #
 # By default this script does nothing.
+# Pidroid addition to start pulseaudio sound server as system daemon
 pulseaudio --system -D --disallow-exit --disallow-module-loading
+# Pidroid default script in foreground at start: simply press CTRL + C to kill it.
 adbvnc &
-
 exit 0
