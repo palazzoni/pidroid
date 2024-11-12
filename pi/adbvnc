@@ -1,11 +1,8 @@
 #!/bin/bash
 first_run=false
-while /bin/true ; do
-  adb_check=$(adb devices -l| grep "device usb:")
+adb_check=""
 
-if ( !([ -z "$adb_check"]) && !($first_run) ) > /dev/null 2>&1
-then
-    first_run=true
+starting_connected () {
     echo "ADBVNC:Device connected, setup ports forwarding..."
     logger "ADBVNC:Device connected, setup ports forwarding..."
     adb forward tcp:5901 tcp:5901
@@ -16,22 +13,58 @@ then
     adb shell su -c /data/local/bin/kavnc &
     sleep 3
     logger "ADBVNC:Start forwarding video and audio..."
-    xinit /usr/bin/xtigervncviewer 127.0.0.1:1 -Fullscreen -PreferredEncoding=Raw -AutoSelect=0
+    xinit /usr/bin/xtigervncviewer 127.0.0.1:1 -passwd /root/.vnc/passwd -Fullscreen -PreferredEncoding=Raw -AutoSelect=0
     sleep 1
-    adb shell killall kavnc
-    adb shell su -c /data/local/bin/kakill
-    echo "ADBVNC: Please disconnect device..."
-    logger "ADBVNC: Service terminated."
-    sleep 5
-elif ( ($first_run) && !([ -z "$adb_check"])) > /dev/null 2>&1
-then
-    echo "ADBVNC: Disconnect device if you want to restart..."
-    sleep 5
-else
-    first_run=false
-    echo "ADBVNC: Device disconnected, sleeping 5 sec..."
-    logger "ADBVNC: Device disconnected, sleeping 5 sec..."
-    sleep 5
-fi
+}
+
+terminated_connected () {
+    echo "ADBVNC: Disconnect device if you want to restart or"
+    echo "ADBVNC: Press s for shutdown or"
+    echo "ADBVNC: Press t to terminate chroot"
+    echo "ADBVNC: Press CNTRL+C to exit ADBVNC"
+    read -rsn1 input
+    case $input in
+      s)
+        echo "ADBVNC: Terminate chroot and shutdown system...."
+        logger "ADBVNC: Terminate chroot shutdown system..."
+        adb shell su -c killall kavnc
+        adb shell su -c /data/local/bin/kakill
+        sleep 1
+        shutdown now -h
+        exit 0
+        ;;
+      t)
+        echo "ADBVNC: Terminate chroot..."
+        logger "ADBVNC: Terminate chroot..."
+        adb shell su -c killall kavnc
+        adb shell su -c /data/local/bin/kakill
+        sleep 1
+        ;;
+    esac
+}
+
+terminated_disconnected () {
+    echo "ADBVNC: Device disconnected, sleeping..."
+    logger "ADBVNC: Device disconnected, sleeping..."
+    echo "ADBVNC: Press CTL + C to terminate."
+}
+while /bin/true ; do
+  clear
+  adb_check=$(adb devices -l| grep "device usb:")
+  echo "ADBVNC: " $adb_check;
+  if (!([ -z "$adb_check"])) > /dev/null 2>&1; then
+    if ( !($first_run) ) > /dev/null 2>&1; then
+      first_run=true;
+      starting_connected;
+    else
+      terminated_connected;
+      sleep 3
+    fi
+  else
+    first_run=false;
+    terminated_disconnected;
+    sleep 3
+  fi
 done
 exit 0
+
