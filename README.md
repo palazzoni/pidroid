@@ -21,8 +21,4 @@ What you need:
 With this configuration I can run a full office desktop with decend performance also on Skype and Teams desktop sharing.
 Rockpi4a in action:
 <img src="https://github.com/palazzoni/pidroid/blob/master/rockpi4a.png?raw=true">
-Attaching phone....
-<img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5795_Moment.png?raw=true">
-Starting desktop...
-<img src="https://github.com/palazzoni/pidroid/blob/master/IMG_5796_Moment.png?raw=true">
-<a href="https://m.youtube.com/watch?v=bvmmukeZAuA&feature=youtu.be">Pidroid video on YouTube</a>
+
