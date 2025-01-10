@@ -7,3 +7,5 @@ Wath you need:
 2.Android smartphone with unlocked bootloader and rooted
 3.install script, settings and Debian rootfs.
 4.run with notebook performance with large monitor and physical keboard and mouse.
+
+Read <a href= "REAME_spec.md"> specification </a> to understand better
