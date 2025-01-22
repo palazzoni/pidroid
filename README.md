@@ -11,4 +11,4 @@ Wath you need:</br>
 </ul>
 </br>
 <li>At this point you can run a linux desktop with all arm64 supported applications with near-notebook performance.</br>
-Read the detail <a href= "REAME_spec.md">README</a> to understand better.
+Read the detail <a href= "README_spec.md">README</a> to understand better.
