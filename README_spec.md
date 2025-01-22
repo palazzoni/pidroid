@@ -1,11 +1,7 @@
 # pidroid
-Final release of rockpi docking station for chrooted android.
+Final release of pidroid, a rock-pi/raspberry-pi/arm-sbc docking station for Linux desktop on android phone.
 <img src="https://github.com/palazzoni/pidroid/blob/master/pidroid.PNG?raw=true">
-With the performance of the latest arm64 socs we are near to the idea of a phone that can act as a  desktop also if with limited power.
-This project aims to use an arm64 board as docking station for linux chroot on android as desktop environment: in every location where you can leave connected an arm64 board like  Raspberry Pi 3/4 or Rockpi 4 to a TV/monitor with a physical keyboard and mouse, you can have a near desktop experience simply attaching your chrooted phone.
-Naturally don't expect an Intel i5 or i7 performance from your phone... even if my Snapdragon 820's performance exceeded my expectations... 
-I decide to use this solution because android has many limits for a desktop use, it's an os designed with little display in mind... 
-The Pi function as thin client for linux chroot on Android, Pi must have attached a TV/monitor via hdmi and a physical keyboard and mouse: linux chroot on android run on VNC optimized server, Pi perform the graphical output and handle human input plus furnish an ethernet cable connection via Android tethering.
+The arm board function as thin client for linux chroot on Android, it must have attached a TV/monitor via hdmi and a physical keyboard and mouse: linux chroot on android run on VNC optimized server, sbc perform the graphical output and handle human input plus furnish an ethernet cable connection via Android tethering.
 The solution it's simple, only the tuning needs some important consideration, when the adbvnc script is installed on the Pi it search a connected phone via usb and automatically:
 1. setup an adb tunnel for video and audio forward
 2. start the chroot on Android via adb shell script
