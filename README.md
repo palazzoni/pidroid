@@ -1,6 +1,6 @@
-<b>Pidroid</b>
+<b>Pidroid - integrate Android with Pi</b>
 </br>
-Run a Linux desktop on a big screen with a physical keyboard and mouse using the power of your smartphone and an arm64 board as docking station.</br>
+Run a Linux desktop on a big screen with a physical keyboard and mouse using the power of your smartphone in integration with an arm64 board that acts as docking station.</br>
 Wath you need:</br>
 <ul>
 <li>an ARM64 card with at least 4 cores, 1 GB of RAM and 16 GB of SDCARD running Debian OS or derivates. </li>
