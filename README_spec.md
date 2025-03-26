@@ -7,15 +7,17 @@ On this solution, Debian based distro on the arm board act as thin client for th
 The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a Pulseaudio client.</br>
 
 After rooted, on your phone you have to:</br>
- 1.setup a Debian chroot on path /data/local/"dir" - this is the chroot path you have to setup also on the adbvnc script. You can find Debian, Ubuntu, Kali arm64 chroot online or build them manually. </br>
-  2.on this chroot you have to install xfce, tigervnc-standalone-server and pulseaudio client.</br>
-  3.copy BIN folder content in /data/local/bin and the file under KALI - group and passwd - in /etc: if you want it is not necessary to copy this two file but you can edit your chroot /etc/group to add android groups ( the "aid_ ones" )  and change apt user details in passwd.</br>
-  4.copy startvnc and stopvnc scripts on your chroot /usr/bin - on phone /data/local/"dir"/usr/bin.</br>
-On the arm sbc side you have to:</br>
-  1.install adb, xtigervncviewer and pulseaudio server ( see PI -> apt_install for details) </br>
-  2.copy the file under PI system.pa and daemon.conf for pulseaudio configuration on /etc/pulse folder </br>
-  3.adbvnc can be placed in /usr/bin.</br>
-
+<ul>
+<li>1.setup a Debian chroot on path /data/local/"dir" - this is the chroot path you have to setup also on the adbvnc script. You can find Debian, Ubuntu, Kali arm64 chroot online or build them manually. </li>
+<li>2.on this chroot you have to install xfce, tigervnc-standalone-server and pulseaudio client.</li>
+<li>3.copy BIN folder content in /data/local/bin and the file under KALI - group and passwd - in /etc: if you want it is not necessary to copy this two file but you can edit your chroot /etc/group to add android groups ( the "aid_ ones" )  and change apt user details in passwd.</li>
+  4.copy startvnc and stopvnc scripts on your chroot /usr/bin - on phone /data/local/"dir"/usr/bin.</li>
+</ul>
+On the arm sbc side you have to:<ul>
+<li>1.install adb, xtigervncviewer and pulseaudio server ( see PI -> apt_install for details) </li>
+<li>2.copy the file under PI system.pa and daemon.conf for pulseaudio configuration on /etc/pulse folder </li>
+<li>3.adbvnc can be placed in /usr/bin.</li>
+</ul>
 
 Basically when the script adbvnc it's launched on the Pi, thank to adb it search a connected phone via usb and if it's found:
 1. setup an adb tunnel for vnc and pulseaudio forward
