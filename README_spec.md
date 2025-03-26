@@ -1,11 +1,11 @@
 # pidroid
 First of all if you want a decent Linux desktop you have to root your android phone: this doesn't mean that you can't do this also with a not rooted phone but you have restricted functionality and also performance suffers.
 <img src="https://github.com/palazzoni/pidroid/blob/master/pidroid.PNG?raw=true">
-You can find many Android rooting guide on the internet for your specific phone but basically this mean to unlock bootloader and patch the boot image with magisk or equivalent software.
-The arm board act as thin client for the linux chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices attached.
-The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a pulseaudio client.
+You can find many Android rooting guide on the internet for your specific phone but basically this mean to unlock bootloader and patch the boot image with magisk or equivalent software.</br>
+The arm board act as thin client for the linux chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices attached.</br>
+The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a pulseaudio client.</br>
 Debian universal operating system it's the base of this solution so it's installed on Android chroot and on arm sbc.
-After rooted, on your phone you have to:
+After rooted, on your phone you have to:</br>
  1.setup a Debian chroot on path /data/local/"dir" - this is the chroot path you have to setup also on the adbvnc script. You can find Debian, Ubuntu, Kali arm64 chroot online or build them manually. 
   2.on this chroot you have to install xfce, tigervnc-standalone-server and pulseaudio client.
   3.copy BIN folder content in /data/local/bin and the file under KALI - group and passwd - in /etc: if you want it is not necessary to copy this two file but you can edit your chroot /etc/group to add android groups ( the "aid_ ones" )  and change apt user details in passwd.
