@@ -1,10 +1,11 @@
 # pidroid
+
 First of all if you want a decent Linux desktop you have to root your android phone: this doesn't mean that you can't do this also with a not rooted phone but you have restricted functionality and also performance suffers.
 <img src="https://github.com/palazzoni/pidroid/blob/master/pidroid.PNG?raw=true">
 You can find many Android rooting guide on the internet for your specific phone but basically this mean to unlock bootloader and patch the boot image with magisk or equivalent software.</br>
-The arm board act as thin client for the linux chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices attached.</br>
-The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a pulseaudio client.</br>
-Debian universal operating system it's the base of this solution so it's installed on Android chroot and on arm sbc.
+The arm board act as thin client for the linux chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices.</br>
+The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a Pulseaudio client.</br>
+Debian operating system it's the base of this solution so it's installed on Android chroot and on the arm sbc.
 After rooted, on your phone you have to:</br>
  1.setup a Debian chroot on path /data/local/"dir" - this is the chroot path you have to setup also on the adbvnc script. You can find Debian, Ubuntu, Kali arm64 chroot online or build them manually. </br>
   2.on this chroot you have to install xfce, tigervnc-standalone-server and pulseaudio client.</br>
@@ -21,7 +22,7 @@ Basically when the script adbvnc it's launched on the Pi, thank to adb it search
 2. start the script /data/local/bin/kavnc that launch the chroot on Android 
 3. start a fullscreen X Tiger VNC viewer and xfce4-session with pulseaudio client.
 
-I have tried different configuration with different setup and the performance are obtained with Rockchip like board ( I use a RockPi 4A) and USB 3.1 capable phones and sbc.
+I have tried different configuration with different board and for the best performance you must have almost a Raspberry 3 board ( I use a RockPi 4A) with USB 3 capable phones and sbc.
 Other users are encouraged to share ideas and improvements.
 
 <img src="https://github.com/palazzoni/pidroid/blob/master/rockpi4a.png?raw=true">
