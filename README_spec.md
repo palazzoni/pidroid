@@ -1,23 +1,28 @@
 # pidroid
-Final release of pidroid, a rock-pi/raspberry-pi/arm-sbc docking station for a Linux desktop on android phone.
+First of all if you want a decent Linux desktop you have to root your android phone: this doesn't mean that you can't do this also with a not rooted phone but you have restricted functionality and also performance suffers.
 <img src="https://github.com/palazzoni/pidroid/blob/master/pidroid.PNG?raw=true">
-The arm board work as thin client connecting to the linux chroot running on rooted Android phone.
-The arm board can be left connected to a TV/monitor via hdmi also with audio, with a physical keyboard and mous.
-The linux chroot on android run a TigerVNC optimized server and pulseaudio client, the arm card has vnc viewer for the graphical output and a pulseaudio server for the sound output, it manage the human inputs plus furnish energy and if you want also connection via Android tethering.
-I know it's a known solution on well know linux infrastructure but I want to share this idea with users using this kind of hacker setup.
-When the script - adbvnc - is installed on the Pi it search a connected phone via usb and automatically:
-1. setup an adb tunnel for video and audio forward
-2. start the chroot on Android via adb shell script
-3. start Tiger VNC viewer session and a pulseaudio server reverse connection for phone client.
-I have tried different configuration with different setup and this is the result for the best performance, other users are encouraged to share ideas and improvements.
+You can find many Android rooting guide on the internet for your specific phone but basically this mean to unlock bootloader and patch the boot image with magisk or equivalent software.
+The arm board act as thin client for the linux chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices attached.
+The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a pulseaudio client.
+Debian universal operating system it's the base of this solution so it's installed on Android chroot and on arm sbc.
+After rooted, on your phone you have to:
+ 1.setup a Debian chroot on path /data/local/"dir" - this is the chroot path you have to setup also on the adbvnc script. You can find Debian, Ubuntu, Kali arm64 chroot online or build them manually. 
+  2.on this chroot you have to install xfce, tigervnc-standalone-server and pulseaudio client.
+  3.copy BIN folder content in /data/local/bin and the file under KALI - group and passwd - in /etc: if you want it is not necessary to copy this two file but you can edit your chroot /etc/group to add android groups ( the "aid_ ones" )  and change apt user details in passwd.
+  4.copy startvnc and stopvnc scripts on your chroot /usr/bin - on phone /data/local/"dir"/usr/bin.
+On the arm sbc side you have to:
+  1.install adb, xtigervncviewer and pulseaudio server ( see PI -> apt_install for details)
+  2.copy the file under PI system.pa and daemon.conf for pulseaudio configuration on /etc/pulse folder
+  3.adbvnc can be placed in /usr/bin.
 
-On this repository I will upload all the scripts needed on the Pi side and on Android side, I will create an automated script for the installation and setup on the PI and on Android chroot but both must be Debian based.... 
-What you need:
-1. an Android <b> rooted </b> phone with adb root enabled,
-2. an arm64 sbc like Raspberry Pi 3/4/5 or Rockpi 4/5 with almost 4 core arm64, minimum 2 USB standard ports and 1/2 USB 3 ports ( high speed ports with 5/10 GB).
-3. a TV or audio speckers or other audio devices attached to the arm board.
-4. a standard USB Keyboard and mouse or a bluethooth one attached to the arm board.
-With this configuration I can fully exploit the performance of the latest amr64 processors, like in modern notebook arm64, run a full office desktop with decend performance also on Skype and Teams desktop sharing.
-Rockpi4a in action:
+
+Basically when the script adbvnc it's launched on the Pi, thank to adb it search a connected phone via usb and if it's found:
+1. setup an adb tunnel for vnc and pulseaudio forward
+2. start the script /data/local/bin/kavnc that launch the chroot on Android 
+3. start a fullscreen X Tiger VNC viewer and xfce4-session with pulseaudio client.
+
+I have tried different configuration with different setup and the performance are obtained with Rockchip like board ( I use a RockPi 4A) and USB 3.1 capable phones and sbc.
+Other users are encouraged to share ideas and improvements.
+
 <img src="https://github.com/palazzoni/pidroid/blob/master/rockpi4a.png?raw=true">
 
