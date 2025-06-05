@@ -14,17 +14,19 @@ starting_connected () {
     sleep 3
     logger "ADBVNC:Start forwarding video and audio..."
     xinit /usr/bin/xtigervncviewer 127.0.0.1:1 -passwd /root/.vnc/passwd -Fullscreen -PreferredEncoding=Raw -AutoSelect=0
-    sleep 1
+    sleep 3
 }
 
 terminated_connected () {
-    echo "ADBVNC: Disconnect device if you want to restart or"
-    echo "ADBVNC: Press s for shutdown or"
-    echo "ADBVNC: Press t to terminate chroot"
-    echo "ADBVNC: Press CNTRL+C to exit ADBVNC"
-    read -rsn1 input
-    case $input in
-      s)
+    echo -ne "Disconnect and reconnect device if you want to restart or 
+1) shutdown Rockpi
+2) terminate chroot on phone
+3) exit ADBVNC
+4) restart ADBVNC
+Choose an option:  "
+    read -r ans
+    case $ans in
+      1)
         echo "ADBVNC: Terminate chroot and shutdown system...."
         logger "ADBVNC: Terminate chroot shutdown system..."
         adb shell su -c killall kavnc
@@ -33,38 +35,55 @@ terminated_connected () {
         shutdown now -h
         exit 0
         ;;
-      t)
+      2)
         echo "ADBVNC: Terminate chroot..."
         logger "ADBVNC: Terminate chroot..."
         adb shell su -c killall kavnc
         adb shell su -c /data/local/bin/kakill
         sleep 1
         ;;
+       3)
+        exit 0
+        ;;
+      4)first_run=false;
+        ;;
+#        for backup voice:
+#        echo "ADBVNC: starting backup..."
+#        sleep 1
+#        adb shell su -c "/data/adb/magisk/busybox tar -cvpz -f /sdcard/pidroid/kali_backup.tar.gz /data/local/kali"
+#        adb shell su -c "cp -a /data/local/bin /sdcard/pidroid/"
+#        adb pull -a /sdcard/pidroid /root/
+#        ;;
+
     esac
 }
 
 terminated_disconnected () {
-    echo "ADBVNC: Device disconnected, sleeping..."
-    logger "ADBVNC: Device disconnected, sleeping..."
+    echo "ADBVNC: Device disconnected or no chroot found, sleeping..."
+    logger "ADBVNC: Device disconnected or no chroot found, sleeping..."
     echo "ADBVNC: Press CTL + C to terminate."
+    sleep 3;
 }
-while /bin/true ; do
-  clear
-  adb_check=$(adb devices -l| grep "device usb:")
-  echo "ADBVNC: " $adb_check;
-  if (!([ -z "$adb_check"])) > /dev/null 2>&1; then
+
+
+
+
+while true ; do
+  clear;
+  if (  ( adb get-state ) | grep "device"  > /dev/null 2>&1 )  &&  ( adb shell [ -d "/data/local/kali" ] )  ; then
+    adb_check=$(adb devices -l | grep "device usb:")
+    echo "ADBVNC: " $adb_check;
     if ( !($first_run) ) > /dev/null 2>&1; then
       first_run=true;
       starting_connected;
     else
       terminated_connected;
-      sleep 3
     fi
   else
     first_run=false;
     terminated_disconnected;
-    sleep 3
   fi
 done
 exit 0
+
 
