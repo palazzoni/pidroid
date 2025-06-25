@@ -1,4 +1,4 @@
-<b>Pidroid - Pi docking station for Android runnig Linux</b>
+<b>Pidroid - Linux docking station for Android </b>
 </br>
 Run a complete Linux desktop on a big screen with a physical keyboard and mouse using the power of your smartphone in integration with an arm64 board that acts as docking station.</br>
 What you need:</br>
