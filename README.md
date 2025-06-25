@@ -7,7 +7,7 @@ What you need:</br>
 <li>the card must have a power supply with more than 1 amp to quickly charge your phone. </li>
 <li>a large monitor or TV with HDMI input </li>
 <li>an Android smartphone that support at least usb 3.0: it must have an unlocked bootloader and it must be rooted.  </li>
-<li>Install the scripts and settings suggested here and the Debian rootfs on the rooted smartphones. </li>
+<li>install the scripts and settings suggested here and the Debian rootfs on the rooted smartphones. </li>
 </ul>
 </br>
 <li>At this point you can run a linux desktop with all arm64 supported applications with near-notebook performance.</br>
