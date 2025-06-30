@@ -1,2 +1,56 @@
-# if run on wayland install Xwayland, if not install first xorg xserver-xorg
-apt update && apt install -y adb pulseaudio xinit tigervnc-viewer
+#!/bin/bash
+# esempio 
+# grep -qxF "net.ipv4.ip_forward=1" /etc/sysctl.conf || echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+#update the system
+if [ "$(id -u)" -ne 0 ]; then;  echo "This script must be executed with root or sudo."; exit 1;  fi
+apt update
+
+is_installed() {
+    dpkg-query -W -f='${Status}' "$1" 2>/dev/null | grep -q "install ok installed"
+}
+
+set_config() {
+  local file="$1"
+  local var="$2"
+  local val="$3"
+
+  if grep -q "^$var=" "$file"; then
+    sed -i "s/^$var=.*/$var=$val/" "$file"
+  else
+    echo "$var=$val" >> "$file"
+  fi
+}
+
+# Check what graphic server installed and install required packages
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if is_installed "wayland"; then
+            apt install  adb pulseaudio xwayland xinit tigervnc-viewer
+    fi
+
+elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+    if is_installed "xserver-xorg"; then
+        apt install  adb pulseaudio xserver-xorg xinit tigervnc-viewer
+    fi
+
+else
+    echo "Graphical server not recognized."
+    echo "Please install this packages: adb pulseaudio xserver-xorg or xwayland  xinit tigervnc-viewer
+    exit 1
+fi
+
+echo "Config in /etc/pulse/daemon.conf value for daemonize = yes"
+set_config "/etc/pulse/daemon.conf" "daemonize" "yes"
+
+echo "Config in /etc/pulse/daemon.conf value for system-instance = yes"
+set_config "/etc/pulse/daemon.conf" "system-instance" "yes"
+
+echo "Config in /etc/pulse/system.pa value for protocol-tcp"
+grep -qxF "load-module module-native-protocol-tcp port=4712 auth-anonymous=1" /etc/pulse/system.pa|| echo "#   Use ip-acl and pulseaudio cookie $HOME/.config/pulse/cookie for security if adb not only usb
+load-module module-native-protocol-tcp port=4712 auth-anonymous=1" |  tee -a  /etc/pulse/system.pa
+
+echo "Config in /etc/rc.local to start automatically pulseaudio and adbvnc
+grep -qxF "pulseaudio --system -D --disallow-exit --disallow-module-loading"  /etc/rc.local || echo "# Pidroid addition to start pulseaudio sound server as system daemon
+pulseaudio --system -D --disallow-exit --disallow-module-loading
+# Pidroid default script in foreground at start: simply press CTRL + C to kill it.
+adbvnc &
+exit 0" |  tee -a  /etc/rc.local 
