@@ -24,8 +24,8 @@ Basically when the script adbvnc it's launched on the Pi, thank to adb it search
 <li>2. start the script /data/local/bin/kavnc that launch the chroot on Android  </li>
 <li>3. start a fullscreen X Tiger VNC viewer and xfce4-session with pulseaudio client. </li>
 </ul>
-I have tried several configurations with different cards and to get the best performance you need to have at least 64-bit quad-core ARM Cortex-A53 ( I use Rockchip based RockPi 4A) with phone and card USB 3 compatible.
-Other users are encouraged to share ideas and improvements.
+I have tried several configurations with different cards and to get the best performance you need to have at least 64-bit quad-core ARM Cortex-A53 ( I use Rockchip based RockPi 4A) with phone and card USB 3 compatible.</br>
+If other users are using similar configuration ( an arm64 board to use Linux chroot on Android)  I encourage to share here ideas, links or improvements.
 
 
 
