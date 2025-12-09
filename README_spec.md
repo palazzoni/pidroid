@@ -1,7 +1,7 @@
 # pidroid
 
 First of all, if you want to take full advantage of your phone power and linux desktop you need to have a rooted phone: this doesn't mean that you can't do this also with a not rooted phone but you have restricted functionality and also performance suffers.
-<img src="https://github.com/palazzoni/pidroid/blob/master/pidroid.PNG?raw=true">
+
 You can find many Android rooting guide on the internet for your specific phone but basically this mean to unlock bootloader and patch the boot image with magisk or equivalent software.</br>
 On this solution, Debian based distro on the arm board act as thin client for the Debian chroot running on the rooted Android phone: in this manner the arm board can be left connected to a TV or large monitor via hdmi, with audio, physical keyboard and mouse and other devices.</br>
 The connection of the phone to the usb port of the arm sbc it's the trigger to start the linux chroot on Android and run a TigerVNC server and a Pulseaudio client.</br>
@@ -24,8 +24,8 @@ Basically when the script adbvnc it's launched on the Pi, thank to adb it search
 <li>2. start the script /data/local/bin/kavnc that launch the chroot on Android  </li>
 <li>3. start a fullscreen X Tiger VNC viewer and xfce4-session with pulseaudio client. </li>
 </ul>
-I have tried several configurations with different cards and to get the best performance you need to have at least  64-bit quad-core ARM Cortex-A53 (I use a RockPi 4A) with phone and card compatible with USB 3 speeds.
+I have tried several configurations with different cards and to get the best performance you need to have at least 64-bit quad-core ARM Cortex-A53 ( I use Rockchip based RockPi 4A) with phone and card USB 3 compatible.
 Other users are encouraged to share ideas and improvements.
 
-<img src="https://github.com/palazzoni/pidroid/blob/master/rockpi4a.png?raw=true">
+
 
