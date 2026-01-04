@@ -1,6 +1,7 @@
 <b>Pidroid - Linux docking station for Android </b>
 </br>
 Run a complete Linux desktop on a big screen with a physical keyboard and mouse using the power of your smartphone and an Arm64 docking station.</br>
+Many user try running Linux desktops on Android, try dividing the load between multiple Linux machines, server service on abc and client on Android, better performance and stable work-station at your needs...contribute to this project sharing your feelings and improvements...
 What you need:</br>
 <ul>
 <li>an Arm64 card with at least 4 cores, 1 GB of RAM and 16 GB of SDCARD running Debian OS or derivates. </li>
